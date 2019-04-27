@@ -1,5 +1,5 @@
 # Bikeduino
-Arduino-based Bicycle Computer using MCUFRIEND 2.4in. Touch Screens.
+Arduino-based Bicycle Computer using MCUFRIEND 2.4" touch screens.
 ## Libraries used
  - [adafruit/Adafruit-GFX-Library](https://github.com/adafruit/Adafruit-GFX-Library)
  - [adafruit/Adafruit_TouchScreen](https://github.com/adafruit/Adafruit_TouchScreen)
