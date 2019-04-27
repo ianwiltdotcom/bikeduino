@@ -1,0 +1,14 @@
+#define BLACK   0x0000
+#define BLUE    0x001F
+#define RED     0xF800
+#define GREEN   0x07E0
+#define CYAN    0x07FF
+#define MAGENTA 0xF81F
+#define PURPLE  0x300A
+#define YELLOW  0xFFE0
+#define WHITE   0xFFFF
+#define DGREY   0x0841
+#define GREY    0x528A
+#define LGREY   0xCDB9
+#define ORANGE  0xF880
+#define BROWN   0x1840
