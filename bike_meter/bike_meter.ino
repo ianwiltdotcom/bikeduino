@@ -5,15 +5,6 @@
 #include "colors.h"
 MCUFRIEND_kbv tft;
 
-/* TO-DOS:
-   NOTE: WHEN DOING ANY CALCULATIONS, CALCULATE IN IMPERIAL, THEN CONVERT TO METRIC IF SET TO
-   LIKE THE SPD VARIABLE WILL ALWAYS BE IMPERIAL AND SAVE AS IMPERIAL
-   FOR METRIC, IT ONLY COVERTS TO DISPLAY
-   About page with version
-   Tutorial for first boot
-   Reset settings
-*/
-
 /* MENU IDS
    Menu 0 - Home
    Menu 1 - Graph
@@ -359,5 +350,3 @@ void drawMenu(int m) {
       break;
   }
 }
-
-
