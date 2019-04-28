@@ -23,6 +23,8 @@ MCUFRIEND_kbv tft;
    0xD0 : Wheel Diameter
 */
 
+String versionNumber = "1.0a";
+
 const int XP = 6, XM = A2, YP = A1, YM = 7; // TOUCHSCREEN CALIBRATION
 const int TS_LEFT = 132, TS_RT = 917, TS_TOP = 948, TS_BOT = 169;
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
@@ -342,11 +344,23 @@ void drawMenu(int m) {
     case 7:
       printText("Options > About", textcolor, 2);
       tft.setCursor(2, 40);
-      printText("Bikeduino", WHITE, 3);
+      printText("Bikeduino", barcolor, 3);
       tft.setCursor(2, 65);
-      printText("By Ian Wilt", WHITE, 2);
+      printText("(c) 2019 Ian Wilt", WHITE, 2);
       tft.setCursor(2, 100);
-      printText("See GitHub for latest updates!", WHITE, 2);
+      printText("Release " + versionNumber, WHITE, 2);
+      tft.setCursor(2, 120);
+      printText("Download new updates from GitHub!", WHITE, 1);
+      tft.setCursor(2, 130);
+      printText("https://github.com/watermeloninja", WHITE, 1);
+      tft.setCursor(2, 140);
+      printText("  /bikeduino/releases", WHITE, 1);
+      tft.setCursor(2, 200);
+      printText("Special thanks:", WHITE, 2);
+      tft.setCursor(2, 220);
+      printText("adafruit - GFX & TouchScreen library", WHITE, 1);
+      tft.setCursor(2, 230);
+      printText("prenticedavid - MCUFRIEND_kbv library", WHITE, 1);
       break;
   }
 }
