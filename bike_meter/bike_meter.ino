@@ -2,7 +2,6 @@
 #include <FreeDefaultFonts.h>
 #include <TouchScreen.h>
 #include <EEPROM.h>
-#include "colors.h"
 #include "addresses.h"
 #include "menus.h"
 MCUFRIEND_kbv tft;
@@ -89,25 +88,25 @@ void loop() {
           for (int x = 0; x < 6; x++) {
             if (xpos > 0 + 40 * x && xpos < 40 + 40 * x && ypos > 60 + 40 * y && ypos < 100 + 40 * y) {
               switch (i) {
-                case 0: barcolor = RED; break;
-                case 1: barcolor = ORANGE; break;
-                case 2: barcolor = YELLOW; break;
-                case 3: barcolor = GREEN; break;
-                case 4: barcolor = BLUE; break;
-                case 5: barcolor = CYAN; break;
-                case 6: barcolor = MAGENTA; break;
-                case 7: barcolor = PURPLE; break;
-                case 8: barcolor = BROWN; break;
-                case 9: barcolor = WHITE; break;
-                case 10: barcolor = GREY; break;
-                case 11: barcolor = BLACK; break;
+                case 0: barcolor = TFT_RED; break;
+                case 1: barcolor = TFT_ORANGE; break;
+                case 2: barcolor = TFT_YELLOW; break;
+                case 3: barcolor = TFT_GREEN; break;
+                case 4: barcolor = TFT_BLUE; break;
+                case 5: barcolor = TFT_CYAN; break;
+                case 6: barcolor = TFT_MAGENTA; break;
+                case 7: barcolor = TFT_PURPLE; break;
+                case 8: barcolor = TFT_BROWN; break;
+                case 9: barcolor = TFT_WHITE; break;
+                case 10: barcolor = TFT_DARKGREY; break;
+                case 11: barcolor = TFT_BLACK; break;
               }
             }
             i++;
           }
         }
-        if (xpos > 0 && xpos < 120 && ypos > 180 && ypos < 220) textcolor = WHITE;
-        if (xpos > 120 && xpos < 240 && ypos > 180 && ypos < 220) textcolor = BLACK;
+        if (xpos > 0 && xpos < 120 && ypos > 180 && ypos < 220) textcolor = TFT_WHITE;
+        if (xpos > 120 && xpos < 240 && ypos > 180 && ypos < 220) textcolor = TFT_BLACK;
         tft.fillRect(0, 0, tft.width(), 20, barcolor);
         tft.setCursor(2, 2);
         printText("Options > Theme", textcolor, 2);
@@ -137,7 +136,7 @@ void loop() {
           }
         }
         tft.setCursor(95, 240);
-        tft.setTextColor(WHITE, BLACK);
+        tft.setTextColor(TFT_WHITE, TFT_BLACK);
         tft.print(String(ws) + "mm   ");
         if (xpos > 40 && xpos < 200 && ypos > 270 && ypos < 310) {
           diameter = (ws / PI) / 25.4;
@@ -173,42 +172,42 @@ void drawInfo() {
     double spdd;
     spdd = spd;
     if (metric) spdd *= 1.609;
-    if (spd < 10) printText("0", DGREY, 2);
-    printText(String(int(spdd)), WHITE, 2);
-    printText(String(int((spdd - int(spdd)) * 10)), WHITE, 1);
+    if (spd < 10) printText("0", TFT_DARKGREY, 2);
+    printText(String(int(spdd)), TFT_WHITE, 2);
+    printText(String(int((spdd - int(spdd)) * 10)), TFT_WHITE, 1);
     tft.setFont();
-    if (metric) printText(" KM/H", WHITE, 2);
-    else printText(" MPH", WHITE, 2);
+    if (metric) printText(" KM/H", TFT_WHITE, 2);
+    else printText(" MPH", TFT_WHITE, 2);
     tft.setCursor(2, 143);
-    printText("Distance", BLACK, 2);
+    printText("Distance", TFT_BLACK, 2);
     tft.setCursor(2, 164);
-    if (metric) printText(String(dist * 1.609, 1), BLACK, 2);
-    else printText(String(dist, 1), BLACK, 2);
-    if (metric) printText(" km ", BLACK, 2);
-    else printText(" mi ", BLACK, 2);
+    if (metric) printText(String(dist * 1.609, 1), TFT_BLACK, 2);
+    else printText(String(dist, 1), TFT_BLACK, 2);
+    if (metric) printText(" km ", TFT_BLACK, 2);
+    else printText(" mi ", TFT_BLACK, 2);
     tft.setCursor(tft.width() / 2 + 2, 143);
-    printText("Time", BLACK, 2);
+    printText("Time", TFT_BLACK, 2);
     tft.setCursor(tft.width() / 2 + 2, 164);
-    printText("00:00:00", BLACK, 2);
+    printText("00:00:00", TFT_BLACK, 2);
     tft.setCursor(2, 194);
-    printText("Odometer", BLACK, 2);
+    printText("Odometer", TFT_BLACK, 2);
     tft.setCursor(2, 215);
-    if (metric) printText(String(odometer *  1.609, 0), BLACK, 2);
-    else printText(String(odometer, 0), BLACK, 2);
-    if (metric) printText(" km ", BLACK, 2);
-    else printText(" mi ", BLACK, 2);
+    if (metric) printText(String(odometer *  1.609, 0), TFT_BLACK, 2);
+    else printText(String(odometer, 0), TFT_BLACK, 2);
+    if (metric) printText(" km ", TFT_BLACK, 2);
+    else printText(" mi ", TFT_BLACK, 2);
     tft.setCursor(tft.width() / 2 + 2, 194);
-    printText("Avg. Spd.", BLACK, 2);
+    printText("Avg. Spd.", TFT_BLACK, 2);
     tft.setCursor(tft.width() / 2 + 2, 215);
-    if (metric) printText(String(avgspd * 1.609, 1), BLACK, 2);
-    else printText(String(avgspd, 1), BLACK, 2);
-    if (metric) printText(" KM/H ", BLACK, 2);
-    else printText(" MPH", BLACK, 2);
+    if (metric) printText(String(avgspd * 1.609, 1), TFT_BLACK, 2);
+    else printText(String(avgspd, 1), TFT_BLACK, 2);
+    if (metric) printText(" KM/H ", TFT_BLACK, 2);
+    else printText(" MPH", TFT_BLACK, 2);
   }
 }
 
 void drawMenu(int m) {
-  tft.fillScreen(BLACK);
+  tft.fillScreen(TFT_BLACK);
   tft.fillRect(0, 0, tft.width(), 20, barcolor);
   tft.setCursor(2, 2);
   int i = 0;
@@ -216,36 +215,36 @@ void drawMenu(int m) {
     case MENU_HOME:
       printText("Bikeduino", textcolor, 2);
 
-      tft.drawRect(0, 21, tft.width(), 120, WHITE);
-      tft.fillRect(0, 142, tft.width(), 50, GREY);
-      tft.fillRect(0, 193, tft.width(), 50, GREY);
-      tft.drawLine(tft.width() / 2, 142, tft.width() / 2, 243, BLACK);
+      tft.drawRect(0, 21, tft.width(), 120, TFT_WHITE);
+      tft.fillRect(0, 142, tft.width(), 50, TFT_DARKGREY);
+      tft.fillRect(0, 193, tft.width(), 50, TFT_DARKGREY);
+      tft.drawLine(tft.width() / 2, 142, tft.width() / 2, 243, TFT_BLACK);
 
-      tft.drawRect(0, 255, 50, 50, GREEN);
-      tft.drawRect(7, 255 + 7, 2, 35, WHITE);
-      tft.drawRect(7, 255 + 41, 35, 2, WHITE);
-      tft.drawLine(9, 255 + 40, 24, 255 + 14, GREEN);
-      tft.drawLine(24, 255 + 15, 32, 255 + 29, GREEN);
-      tft.drawLine(32, 255 + 29, 42, 255 + 12, GREEN);
+      tft.drawRect(0, 255, 50, 50, TFT_GREEN);
+      tft.drawRect(7, 255 + 7, 2, 35, TFT_WHITE);
+      tft.drawRect(7, 255 + 41, 35, 2, TFT_WHITE);
+      tft.drawLine(9, 255 + 40, 24, 255 + 14, TFT_GREEN);
+      tft.drawLine(24, 255 + 15, 32, 255 + 29, TFT_GREEN);
+      tft.drawLine(32, 255 + 29, 42, 255 + 12, TFT_GREEN);
 
-      tft.drawRect(63, 255, 50, 50, YELLOW);
-      tft.drawCircle(63 + 25, 255 + 25, 17, WHITE);
-      tft.drawCircle(63 + 25, 255 + 25, 16, WHITE);
-      tft.fillRect(63 + 7, 255 + 7, 20, 20, BLACK);
-      tft.fillTriangle(63 + 26, 255 + 4, 63 + 26, 255 + 13, 63 + 18, 255 + 8, WHITE);
+      tft.drawRect(63, 255, 50, 50, TFT_YELLOW);
+      tft.drawCircle(63 + 25, 255 + 25, 17, TFT_WHITE);
+      tft.drawCircle(63 + 25, 255 + 25, 16, TFT_WHITE);
+      tft.fillRect(63 + 7, 255 + 7, 20, 20, TFT_BLACK);
+      tft.fillTriangle(63 + 26, 255 + 4, 63 + 26, 255 + 13, 63 + 18, 255 + 8, TFT_WHITE);
 
-      tft.drawRect(126, 255, 50, 50, BLUE);
-      tft.drawRect(126 + 7, 255 + 7, 35, 35, WHITE);
-      tft.drawRect(126 + 8, 255 + 8, 33, 33, WHITE);
-      for (int x = 0; x < 6; x++) tft.drawLine(126 + 10, 255 + 11 + 5 * x, 126 + 10 + 27, 255 + 11 + 5 * x, BLUE);
+      tft.drawRect(126, 255, 50, 50, TFT_BLUE);
+      tft.drawRect(126 + 7, 255 + 7, 35, 35, TFT_WHITE);
+      tft.drawRect(126 + 8, 255 + 8, 33, 33, TFT_WHITE);
+      for (int x = 0; x < 6; x++) tft.drawLine(126 + 10, 255 + 11 + 5 * x, 126 + 10 + 27, 255 + 11 + 5 * x, TFT_BLUE);
 
-      tft.drawRect(190, 255, 50, 50, RED);
-      tft.drawLine(190 + 9, 255 + 9, 190 + 40, 255 + 40, WHITE);
-      tft.drawLine(190 + 8, 255 + 41, 190 + 40, 255 + 9, WHITE);
-      tft.drawLine(190 + 9, 255 + 10, 190 + 39, 255 + 40, WHITE);
-      tft.drawLine(190 + 10, 255 + 9, 190 + 40, 255 + 39, WHITE);
-      tft.drawLine(190 + 8, 255 + 40, 190 + 39, 255 + 9, WHITE);
-      tft.drawLine(190 + 9, 255 + 41, 190 + 40, 255 + 10, WHITE);
+      tft.drawRect(190, 255, 50, 50, TFT_RED);
+      tft.drawLine(190 + 9, 255 + 9, 190 + 40, 255 + 40, TFT_WHITE);
+      tft.drawLine(190 + 8, 255 + 41, 190 + 40, 255 + 9, TFT_WHITE);
+      tft.drawLine(190 + 9, 255 + 10, 190 + 39, 255 + 40, TFT_WHITE);
+      tft.drawLine(190 + 10, 255 + 9, 190 + 40, 255 + 39, TFT_WHITE);
+      tft.drawLine(190 + 8, 255 + 40, 190 + 39, 255 + 9, TFT_WHITE);
+      tft.drawLine(190 + 9, 255 + 41, 190 + 40, 255 + 10, TFT_WHITE);
       drawInfo();
       break;
     case MENU_GRAPH:
@@ -256,19 +255,19 @@ void drawMenu(int m) {
       break;
     case MENU_OPTIONS:
       printText("Options", textcolor, 2);
-      for (int x = 0; x < 5; x++) tft.fillRect(0, 40 + 51 * x, tft.width(), 50, GREY);
+      for (int x = 0; x < 5; x++) tft.fillRect(0, 40 + 51 * x, tft.width(), 50, TFT_DARKGREY);
       tft.setCursor(2, 55);
-      printText("Menu Bar Theme", BLACK, 2);
+      printText("Menu Bar Theme", TFT_BLACK, 2);
       tft.setCursor(2, 106);
-      printText("Units: ", BLACK, 2);
-      if (metric) printText("Metric", BLACK, 2);
-      else printText("Imperial", BLACK, 2);
+      printText("Units: ", TFT_BLACK, 2);
+      if (metric) printText("Metric", TFT_BLACK, 2);
+      else printText("Imperial", TFT_BLACK, 2);
       tft.setCursor(2, 157);
-      printText("Wheel Size: " + String(diameter) + "\"", BLACK, 2);
+      printText("Wheel Size: " + String(diameter) + "\"", TFT_BLACK, 2);
       tft.setCursor(2, 208);
-      printText("Settings 4", BLACK, 2);
+      printText("Settings 4", TFT_BLACK, 2);
       tft.setCursor(2, 259);
-      printText("About Bikeduino", BLACK, 2);
+      printText("About Bikeduino", TFT_BLACK, 2);
       break;
     case MENU_STOP:
       printText("Stop", textcolor, 2);
@@ -276,75 +275,75 @@ void drawMenu(int m) {
     case MENU_THEME:
       printText("Options > Theme", textcolor, 2);
       tft.setCursor(2, 40);
-      printText("Menu Bar Color", WHITE, 2);
+      printText("Menu Bar Color", TFT_WHITE, 2);
       tft.setCursor(2, 160);
-      printText("Menu Bar Text Color", WHITE, 2);
-      tft.fillRect(0, 60, 40, 40, RED);
-      tft.fillRect(40, 60, 40, 40, ORANGE);
-      tft.fillRect(80, 60, 40, 40, YELLOW);
-      tft.fillRect(120, 60, 40, 40, GREEN);
-      tft.fillRect(160, 60, 40, 40, BLUE);
-      tft.fillRect(200, 60, 40, 40, CYAN);
-      tft.fillRect(0, 100, 40, 40, MAGENTA);
-      tft.fillRect(40, 100, 40, 40, PURPLE);
-      tft.fillRect(80, 100, 40, 40, BROWN);
-      tft.fillRect(120, 100, 40, 40, WHITE);
-      tft.fillRect(160, 100, 40, 40, GREY);
-      tft.fillRect(200, 100, 40, 40, DGREY);
-      tft.fillRect(0, 180, 120, 40, WHITE);
-      tft.fillRect(120, 180, 120, 40, DGREY);
-      tft.drawRect(40, 240, 160, 40, YELLOW);
+      printText("Menu Bar Text Color", TFT_WHITE, 2);
+      tft.fillRect(0, 60, 40, 40, TFT_RED);
+      tft.fillRect(40, 60, 40, 40, TFT_ORANGE);
+      tft.fillRect(80, 60, 40, 40, TFT_YELLOW);
+      tft.fillRect(120, 60, 40, 40, TFT_GREEN);
+      tft.fillRect(160, 60, 40, 40, TFT_BLUE);
+      tft.fillRect(200, 60, 40, 40, TFT_CYAN);
+      tft.fillRect(0, 100, 40, 40, TFT_MAGENTA);
+      tft.fillRect(40, 100, 40, 40, TFT_PURPLE);
+      tft.fillRect(80, 100, 40, 40, TFT_BROWN);
+      tft.fillRect(120, 100, 40, 40, TFT_WHITE);
+      tft.fillRect(160, 100, 40, 40, TFT_DARKGREY);
+      tft.fillRect(200, 100, 40, 40, 0x0841);
+      tft.fillRect(0, 180, 120, 40, TFT_WHITE);
+      tft.fillRect(120, 180, 120, 40, 0x0841);
+      tft.drawRect(40, 240, 160, 40, TFT_YELLOW);
       tft.setCursor(95, 252);
-      printText("SAVE", WHITE, 2);
+      printText("SAVE", TFT_WHITE, 2);
       tft.setCursor(0, 300);
-      printText("Note: if you tap the home bar, your", WHITE, 1);
+      printText("Note: if you tap the home bar, your", TFT_WHITE, 1);
       tft.setCursor(0, 308);
-      printText("choice will not be saved.", WHITE, 1);
+      printText("choice will not be saved.", TFT_WHITE, 1);
       break;
     case MENU_WHEEL:
       printText("Options > Wheel", textcolor, 2);
       tft.setCursor(2, 40);
-      printText("Measure the distance your front tire", WHITE, 1);
+      printText("Measure the distance your front tire", TFT_WHITE, 1);
       tft.setCursor(2, 50);
-      printText("travels in one rotation. Input the", WHITE, 1);
+      printText("travels in one rotation. Input the", TFT_WHITE, 1);
       tft.setCursor(2, 60);
-      printText("distance in millimeters below.", WHITE, 1);
+      printText("distance in millimeters below.", TFT_WHITE, 1);
       for (int y = 0; y < 3; y++) {
         for (int x = 0; x < 4; x++) {
           if (i == 11) continue;
-          tft.drawRect(25 + 50 * x, 80 + 50 * y, 40, 40, WHITE);
+          tft.drawRect(25 + 50 * x, 80 + 50 * y, 40, 40, TFT_WHITE);
           tft.setCursor(40 + 50 * x, 90 + 50 * y);
-          if (i == 10) printText("-", WHITE, 2);
-          else printText(String(i), WHITE, 2);
+          if (i == 10) printText("-", TFT_WHITE, 2);
+          else printText(String(i), TFT_WHITE, 2);
           i++;
         }
       }
-      tft.drawRect(40, 270, 160, 40, YELLOW);
+      tft.drawRect(40, 270, 160, 40, TFT_YELLOW);
       tft.setCursor(95, 282);
-      printText("SAVE", WHITE, 2);
+      printText("SAVE", TFT_WHITE, 2);
       tft.setCursor(95, 240);
-      printText("0mm", WHITE, 2);
+      printText("0mm", TFT_WHITE, 2);
       break;
     case MENU_ABOUT:
       printText("Options > About", textcolor, 2);
       tft.setCursor(2, 40);
       printText("Bikeduino", barcolor, 3);
       tft.setCursor(2, 65);
-      printText("(c) 2019 Ian Wilt", WHITE, 2);
+      printText("(c) 2019 Ian Wilt", TFT_WHITE, 2);
       tft.setCursor(2, 100);
-      printText("Release " + versionNumber, WHITE, 2);
+      printText("Release " + versionNumber, TFT_WHITE, 2);
       tft.setCursor(2, 120);
-      printText("Download new updates from GitHub!", WHITE, 1);
+      printText("Download new updates from GitHub!", TFT_WHITE, 1);
       tft.setCursor(2, 130);
-      printText("https://github.com/watermeloninja", WHITE, 1);
+      printText("https://github.com/watermeloninja", TFT_WHITE, 1);
       tft.setCursor(2, 140);
-      printText("  /bikeduino/releases", WHITE, 1);
+      printText("  /bikeduino/releases", TFT_WHITE, 1);
       tft.setCursor(2, 200);
-      printText("Special thanks:", WHITE, 2);
+      printText("Special thanks:", TFT_WHITE, 2);
       tft.setCursor(2, 220);
-      printText("adafruit - GFX & TouchScreen library", WHITE, 1);
+      printText("adafruit - GFX & TouchScreen library", TFT_WHITE, 1);
       tft.setCursor(2, 230);
-      printText("prenticedavid - MCUFRIEND_kbv library", WHITE, 1);
+      printText("prenticedavid - MCUFRIEND_kbv library", TFT_WHITE, 1);
       break;
   }
 }
