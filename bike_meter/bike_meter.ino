@@ -172,7 +172,7 @@ void drawInfo() {
     double spdd;
     spdd = spd;
     if (metric) spdd *= 1.609;
-    if (spd < 10) printText("0", TFT_DARKGREY, 2);
+    if (spd < 10) printText("0", 0x0841, 2);
     printText(String(int(spdd)), TFT_WHITE, 2);
     printText(String(int((spdd - int(spdd)) * 10)), TFT_WHITE, 1);
     tft.setFont();
