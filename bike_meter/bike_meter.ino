@@ -3,25 +3,9 @@
 #include <TouchScreen.h>
 #include <EEPROM.h>
 #include "colors.h"
+#include "addresses.h"
+#include "menus.h"
 MCUFRIEND_kbv tft;
-
-/* MENU IDS
-   Menu 0 - Home
-   Menu 1 - Graph
-   Menu 2 - Reset
-   Menu 3 - Options
-   Menu 4 - Stop
-   Menu 5 - Options>Theme
-   Menu 6 - Options>Wheel Size
-   Menu 7 - Options>About
-*/
-
-/* EEPROM ADDRESSES
-   0xC0-0xC1 : Menu Bar Color
-   0xC2-0xC3 : Menu Bar Text Color
-   0xC4 : Units
-   0xD0 : Wheel Diameter
-*/
 
 String versionNumber = "1.0a";
 
@@ -30,7 +14,7 @@ const int TS_LEFT = 132, TS_RT = 917, TS_TOP = 948, TS_BOT = 169;
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 TSPoint tp;
 
-int menu = 0; // PUBLIC VARIABLES
+int menu = MENU_HOME; // PUBLIC VARIABLES
 int xpos, ypos;
 unsigned long btntimercurrent;
 long btntimerlast;
@@ -44,8 +28,8 @@ void setup() {
   tft.setRotation(0);
   // Settings loading
   loadColorBar();
-  EEPROM.get(0xC4, metric);
-  EEPROM.get(0xD0, diameter);
+  EEPROM.get(ADD_METRICMODE, metric);
+  EEPROM.get(ADD_WHEELDIAMETER, diameter);
   drawMenu(menu);
 }
 
@@ -62,11 +46,11 @@ void loop() {
       if (menu == 5) { // Reset the color to saved if in themes menu
         loadColorBar();
       }
-      loadMenu(0);
+      loadMenu(MENU_HOME);
     }
     int i = 0;
     switch (menu) { // PUT ALL BUTTON DETECTION HERE
-      case 0: // Home Menu buttons
+      case MENU_HOME:
         for (int x = 0; x < 4; x++) {
           if (xpos > 0 + 63 * x && xpos < 50 + 63 * x && ypos > 255 && ypos < 305) {
             switch (i) {
@@ -79,14 +63,14 @@ void loop() {
           i++;
         }
         break;
-      case 3: // Settings buttons
+      case MENU_OPTIONS:
         for (int y = 0; y < 5; y++) {
           if (xpos > 0 && xpos < 240 && ypos > 40 + 51 * y && ypos < 90 + 51 * y) {
             switch (i) {
               case 0: loadMenu(5); break;
               case 1:
                 metric = !metric;
-                EEPROM.put(0xC4, metric);
+                EEPROM.put(ADD_METRICMODE, metric);
                 loadMenu(3);
                 break;
               case 2:
@@ -100,7 +84,7 @@ void loop() {
           i++;
         }
         break;
-      case 5: // Themes buttons
+      case MENU_THEME:
         for (int y = 0; y < 2; y++) {
           for (int x = 0; x < 6; x++) {
             if (xpos > 0 + 40 * x && xpos < 40 + 40 * x && ypos > 60 + 40 * y && ypos < 100 + 40 * y) {
@@ -128,14 +112,14 @@ void loop() {
         tft.setCursor(2, 2);
         printText("Options > Theme", textcolor, 2);
         if (xpos > 40 && xpos < 200 && ypos > 240 && ypos < 280) {
-          EEPROM.write(0xC0, barcolor);
-          EEPROM.write(0xC1, barcolor >> 8);
-          EEPROM.write(0xC2, textcolor);
-          EEPROM.write(0xC3, textcolor >> 8);
+          EEPROM.write(ADD_MENUBARCOLORA, barcolor);
+          EEPROM.write(ADD_MENUBARCOLORB, barcolor >> 8);
+          EEPROM.write(ADD_MENUBARTEXTA, textcolor);
+          EEPROM.write(ADD_MENUBARTEXTB, textcolor >> 8);
           loadMenu(3);
         }
         break;
-      case 6: // Wheel size buttons
+      case MENU_WHEEL:
         for (int y = 0; y < 3; y++) {
           for (int x = 0; x < 4; x++) {
             if (i == 11) continue;
@@ -157,7 +141,7 @@ void loop() {
         tft.print(String(ws) + "mm   ");
         if (xpos > 40 && xpos < 200 && ypos > 270 && ypos < 310) {
           diameter = (ws / PI) / 25.4;
-          EEPROM.put(0xD0, diameter);
+          EEPROM.put(ADD_WHEELDIAMETER, diameter);
           loadMenu(3);
         }
         break;
@@ -166,8 +150,8 @@ void loop() {
 }
 
 void loadColorBar() {
-  textcolor = EEPROM.read(0xC2) + (EEPROM.read(0xC3) << 8);
-  barcolor = EEPROM.read(0xC0) + (EEPROM.read(0xC1) << 8);
+  textcolor = EEPROM.read(ADD_MENUBARTEXTA) + (EEPROM.read(ADD_MENUBARTEXTB) << 8);
+  barcolor = EEPROM.read(ADD_MENUBARCOLORA) + (EEPROM.read(ADD_MENUBARCOLORB) << 8);
 }
 
 void loadMenu(int m) {
@@ -183,7 +167,7 @@ void printText(String t, int c, int s) {
 }
 
 void drawInfo() {
-  if (menu == 0) {
+  if (menu == MENU_HOME) {
     tft.setCursor(5, 120);
     tft.setFont(&FreeSevenSegNumFont);
     double spdd;
@@ -229,7 +213,7 @@ void drawMenu(int m) {
   tft.setCursor(2, 2);
   int i = 0;
   switch (m) {
-    case 0:
+    case MENU_HOME:
       printText("Bikeduino", textcolor, 2);
 
       tft.drawRect(0, 21, tft.width(), 120, WHITE);
@@ -264,13 +248,13 @@ void drawMenu(int m) {
       tft.drawLine(190 + 9, 255 + 41, 190 + 40, 255 + 10, WHITE);
       drawInfo();
       break;
-    case 1:
+    case MENU_GRAPH:
       printText("Graph", textcolor, 2);
       break;
-    case 2:
+    case MENU_RESET:
       printText("Reset", textcolor, 2);
       break;
-    case 3:
+    case MENU_OPTIONS:
       printText("Options", textcolor, 2);
       for (int x = 0; x < 5; x++) tft.fillRect(0, 40 + 51 * x, tft.width(), 50, GREY);
       tft.setCursor(2, 55);
@@ -286,10 +270,10 @@ void drawMenu(int m) {
       tft.setCursor(2, 259);
       printText("About Bikeduino", BLACK, 2);
       break;
-    case 4:
+    case MENU_STOP:
       printText("Stop", textcolor, 2);
       break;
-    case 5:
+    case MENU_THEME:
       printText("Options > Theme", textcolor, 2);
       tft.setCursor(2, 40);
       printText("Menu Bar Color", WHITE, 2);
@@ -317,7 +301,7 @@ void drawMenu(int m) {
       tft.setCursor(0, 308);
       printText("choice will not be saved.", WHITE, 1);
       break;
-    case 6:
+    case MENU_WHEEL:
       printText("Options > Wheel", textcolor, 2);
       tft.setCursor(2, 40);
       printText("Measure the distance your front tire", WHITE, 1);
@@ -341,7 +325,7 @@ void drawMenu(int m) {
       tft.setCursor(95, 240);
       printText("0mm", WHITE, 2);
       break;
-    case 7:
+    case MENU_ABOUT:
       printText("Options > About", textcolor, 2);
       tft.setCursor(2, 40);
       printText("Bikeduino", barcolor, 3);
